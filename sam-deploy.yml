@@ -2,10 +2,10 @@ version: '1.0'
 kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
-  title: SAM AWS.
-  version: 0.0.4
+  title: SAM AWS
+  version: 0.0.5
   isPublic: false
-  description: Deploy SAM AWS.
+  description: Deploy SAM AWS
   sources:
     - >-
       https://github.com/Thiagosnts/sam-deploy
@@ -32,7 +32,7 @@ metadata:
           arguments:
             AWS_ACCESS_KEY_ID: IDEXAMPLE
             AWS_SECRET_ACCESS_KEY: KEYEXAMPLE
-            STACK: 
+            STACK: stack-exampĺe
             PARAMETERS:
                 - env1=value1
                 - env2=value2
