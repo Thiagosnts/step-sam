@@ -3,7 +3,7 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 0.0.8
+  version: 0.0.16
   isPublic: false
   description: Deploy SAM AWS
   sources:
@@ -41,8 +41,8 @@ metadata:
               - project=example
               - environment=hml
             REGION: us-east2
-            S3-PREFIX: sam
-            S3-BUCKET: sam-example
+            S3_PREFIX: sam
+            S3_BUCKET: sam-example
   created_at: "2021-07-04T08:19:25.387Z"
   updated_at: "2021-07-04T08:19:25.387Z"
   latest: true
@@ -104,8 +104,8 @@ spec:
     main:
         image: public.ecr.aws/sam/build-nodejs14.x
         commands:
-          - export "AWS_ACCESS_KEY_ID=${{AWS_ACCESS_KEY_ID}}"
-          - export "AWS_SECRET_ACCESS_KEY=${{AWS_SECRET_ACCESS_KEY}}"
+          - 'export AWS_ACCESS_KEY_ID=[[ .Arguments.AWS_ACCESS_KEY_ID ]]'
+          - 'export AWS_SECRET_ACCESS_KEY=[[ .Arguments.AWS_SECRET_ACCESS_KEY ]]'
         [[- $cmd := (printf "sam deploy --no-confirm-changeset --capabilities=CAPABILITY_IAM --no-fail-on-empty-changeset") -]]
         [[- $cmd = (printf "%s --stack-name=%s" $cmd .Arguments.STACK) -]]
         [[- $cmd = (printf "%s --region=%s" $cmd .Arguments.REGION) -]]
@@ -119,4 +119,5 @@ spec:
         [[ range $arg := .Arguments.TAGS ]]
         [[- $cmd = (printf "%s %s" $cmd $arg) -]]
         [[- end ]]
+          - echo 'saida [[ $cmd ]]'
 
