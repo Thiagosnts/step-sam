@@ -73,11 +73,11 @@ spec:
               "type": "string",
               "description": "REGION"
           },
-          "S3-PREFIX": {
+          "S3_PREFIX": {
               "type": "string",
               "description": "S3-PREFIX"
           },
-          "S3-BUCKET": {
+          "S3_BUCKET": {
               "type": "string",
               "description": "S3-BUCKET"
           },
@@ -109,8 +109,8 @@ spec:
         [[- $cmd := (printf "sam deploy --no-confirm-changeset --capabilities=CAPABILITY_IAM --no-fail-on-empty-changeset") -]]
         [[- $cmd = (printf "%s --stack-name=%s" $cmd .Arguments.STACK) -]]
         [[- $cmd = (printf "%s --region=%s" $cmd .Arguments.REGION) -]]
-        [[- $cmd = (printf "%s --s3-prefix=%s" $cmd .Arguments.S3-PREFIX) -]]
-        [[- $cmd = (printf "%s --s3-bucket=%s" $cmd .Arguments.S3-BUCKET) -]]
+        [[- $cmd = (printf "%s --s3-prefix=%s" $cmd .Arguments.S3_PREFIX) -]]
+        [[- $cmd = (printf "%s --s3-bucket=%s" $cmd .Arguments.S3_BUCKET) -]]
         [[- $cmd = (printf "%s --parameter-overrides" $cmd) -]]
         [[ range $arg := .Arguments.PARAMETERS ]]
         [[- $cmd = (printf "%s %s" $cmd $arg) -]]
