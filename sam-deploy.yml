@@ -2,7 +2,7 @@ version: '1.0'
 kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
-  title: Deploy SAM AWS.
+  title: SAM AWS.
   version: 0.0.3
   isPublic: false
   description: Deploy SAM AWS.
