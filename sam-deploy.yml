@@ -3,7 +3,7 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: Deploy SAM AWS.
-  version: 0.0.1
+  version: 0.0.2
   isPublic: false
   description: Deploy SAM AWS.
   sources:
@@ -21,7 +21,7 @@ metadata:
   icon:
     type: svg
     url: >-
-      https://raw.githubusercontent.com/Thiagosnts/configmap-and-secret/master/icon-3.svg
+      https://raw.githubusercontent.com/Thiagosnts/step-sam/master/icon.svg
     background: '#326DE6'
   examples:
     - description: example-1
