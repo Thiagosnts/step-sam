@@ -1,0 +1,24 @@
+  sam-deploy:
+    title: "sam-deploy"
+    type: "sam-deploy"
+    repo: "${{authorizer_templates}}"
+    revision: "master"
+    git: "gitlab-ipirangacloud"
+    stage: "Clone"
+    arguments:
+      AWS_ACCESS_KEY_ID: 
+      AWS_SECRET_ACCESS_KEY:
+      STACK: 
+      PARAMETERS:
+        - env1=value1
+        - env2=value2
+        - env3=value3
+      TAGS:
+        - project=example
+        - environment=hml
+      REGION:
+      S3-PREFIX: 
+      S3-BUCKET: 
+      
+      
+      

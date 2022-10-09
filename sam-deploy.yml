@@ -1,0 +1,131 @@
+version: '1.0'
+kind: step-type
+metadata:
+  name: atqipiranga/sam-deploy
+  title: Deploy SAM AWS.
+  version: 0.0.1
+  isPublic: false
+  description: Deploy SAM AWS.
+  sources:
+    - >-
+      https://github.com/Thiagosnts/sam-deploy
+  stage: incubating
+  maintainers:
+    - name: Thiago Mourao
+      email: thiagosnts90@gmail.com
+  categories:
+    - featured
+    - aws
+  official: false
+  tags: []
+  icon:
+    type: svg
+    url: >-
+      https://raw.githubusercontent.com/Thiagosnts/configmap-and-secret/master/icon-3.svg
+    background: '#326DE6'
+  examples:
+    - description: example-1
+      workflow:
+        SamDeploy:
+          title: Deploy SAM AWS.
+          type: sam-deploy
+          arguments:
+            AWS_ACCESS_KEY_ID: IDEXAMPLE
+            AWS_SECRET_ACCESS_KEY: KEYEXAMPLE
+            STACK: 
+            PARAMETERS:
+                - env1=value1
+                - env2=value2
+                - env3=value3
+            TAGS:
+                - project=example
+                - environment=hml
+            REGION: us-east2
+            S3-PREFIX: sam
+            S3-BUCKET: sam-example
+  created_at: '2021-07-04T08:19:25.387Z'
+  updated_at: '2021-07-04T08:19:25.387Z'
+  latest: true
+  id: 60e16f0eeb7a775dc56bbce0
+spec:
+  arguments: |-
+    {
+        "definitions": {},
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "additionalProperties": false,
+        "patterns": [],
+        "required": [],
+        "properties": {
+            "AWS_ACCESS_KEY_ID": {
+                "type": "string",
+                "description": "AWS_ACCESS_KEY_ID"
+            },
+            "AWS_SECRET_ACCESS_KEY": {
+                "type": "string",
+                "description": "AWS_SECRET_ACCESS_KEY"
+            },
+            "STACK": {
+                "type": "string",
+                "description": "STACK"
+            },
+            "REGION": {
+                "type": "string",
+                "description": "REGION"
+            },
+            "S3-PREFIX": {
+                "type": "string",
+                "description": "S3-PREFIX"
+            },
+            "S3-BUCKET": {
+                "type": "string",
+                "description": "S3-BUCKET"
+            },
+            "PARAMETERS": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "description": "List of the PARAMETERS to get"
+            },
+            "TAGS": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "description": "List of the TAGS to get"
+            }
+        }
+    }
+  delimiters:
+    left: '[['
+    right: ']]'
+  stepsTemplate: |-
+    main:
+        image: quay.io/codefresh/cli
+        commands:
+        [[- $cmd := (printf "sam deploy --no-confirm-changeset --capabilities=CAPABILITY_IAM --no-fail-on-empty-changeset") -]]
+        [[ if .Arguments.STACK ]]
+            [[- $cmd = (printf "%s --stack-name %s" $cmd .Arguments.STACK) -]]
+        [[- end -]]
+        [[ if .Arguments.REGION ]]
+            [[- $cmd = (printf "%s --region %s" $cmd .Arguments.REGION) -]]
+        [[- end -]]
+        [[ if .Arguments.S3-PREFIX ]]
+            [[- $cmd = (printf "%s --s3-prefix %s" $cmd .Arguments.S3-PREFIX) -]]
+        [[- end -]]
+        [[ if .Arguments.S3-BUCKET ]]
+            [[- $cmd = (printf "%s --s3-bucket %s" $cmd .Arguments.S3-BUCKET) -]]
+        [[- end -]]
+        [[- $cmd = (printf "%s --parameter-overrides" $cmd) -]]
+        [[ range $arg := .Arguments.PARAMETERS ]]
+        [[- $cmd = (printf "%s %s" $cmd $arg) -]]
+        [[- end ]]
+
+        [[- $cmd = (printf "%s --tags" $cmd) -]]
+        [[ range $arg := .Arguments.TAGS ]]
+        [[- $cmd = (printf "%s %s" $cmd $arg) -]]
+        [[- end ]]
+          - export "AWS_ACCESS_KEY_ID=${{AWS_ACCESS_KEY_ID}}"
+          - export "AWS_SECRET_ACCESS_KEY=${{AWS_SECRET_ACCESS_KEY}}"
+          - echo $cmd
