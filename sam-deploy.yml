@@ -22,7 +22,7 @@ metadata:
     type: svg
     url: >-
       https://raw.githubusercontent.com/Thiagosnts/step-sam/master/icon-2.svg
-    background: '#326DE6'
+    background: '#D9E6F8'
   examples:
     - description: example-1
       workflow:
