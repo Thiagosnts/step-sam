@@ -113,7 +113,6 @@ spec:
           - 'export AWS_SECRET_ACCESS_KEY=[[ .Arguments.AWS_SECRET_ACCESS_KEY ]]'
         [[- $cmd := (printf "sam deploy --no-confirm-changeset --capabilities=CAPABILITY_IAM --no-fail-on-empty-changeset") -]]
         [[- $cmd = (printf "%s --stack-name=%s" $cmd .Arguments.STACK) -]]
-        [[- $cmd = (printf "%s -t %s" $cmd .Arguments.TEMPLATE) -]]
         [[- $cmd = (printf "%s --region=%s" $cmd .Arguments.REGION) -]]
         [[- $cmd = (printf "%s --s3-prefix=%s" $cmd .Arguments.S3_PREFIX) -]]
         [[- $cmd = (printf "%s --s3-bucket=%s" $cmd .Arguments.S3_BUCKET) -]]
