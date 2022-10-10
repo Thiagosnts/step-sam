@@ -3,9 +3,9 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 0.0.16
+  version: 0.0.167
   isPublic: false
-  description: Deploy SAM AWS
+  description: SAM AWS
   sources:
     - >-
       https://github.com/Thiagosnts/step-sam
@@ -27,7 +27,7 @@ metadata:
     - description: example-1
       workflow:
         SamDeploy:
-          title: Deploy SAM AWS.
+          title: Deploy SAM AWS
           type: sam-deploy
           arguments:
             AWS_ACCESS_KEY_ID: IDEXAMPLE
@@ -119,5 +119,5 @@ spec:
         [[ range $arg := .Arguments.TAGS ]]
         [[- $cmd = (printf "%s %s" $cmd $arg) -]]
         [[- end ]]
-          - echo 'saida [[ $cmd ]]'
+          - '[[ $cmd ]]'
 
