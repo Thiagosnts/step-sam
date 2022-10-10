@@ -3,7 +3,7 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 0.0.17
+  version: 0.0.1
   isPublic: false
   description: SAM AWS
   sources:
@@ -125,5 +125,6 @@ spec:
         [[ range $arg := .Arguments.TAGS ]]
         [[- $cmd = (printf "%s %s" $cmd $arg) -]]
         [[- end ]]
+          - 'cd [[ .Arguments.TEMPLATE ]]'
           - '[[ $cmd ]]'
 
