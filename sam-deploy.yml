@@ -3,8 +3,8 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 0.0.7
-  isPublic: false
+  version: 0.12.0
+  isPublic: true
   description: SAM AWS
   sources:
     - >-
@@ -117,7 +117,13 @@ spec:
         commands:
         - 'export AWS_ACCESS_KEY_ID=[[ .Arguments.AWS_ACCESS_KEY_ID ]]'
         - 'export AWS_SECRET_ACCESS_KEY=[[ .Arguments.AWS_SECRET_ACCESS_KEY ]]'
+        [[ if .Arguments.AWS_SESSION_TOKEN ]]
         - 'export AWS_SESSION_TOKEN=[[ .Arguments.AWS_SESSION_TOKEN ]]'
+        [[ end ]]
+        [[ if .Arguments.PARAMETERS_JSON ]]
+        - 'SAM_PARAMETERS=$( cat [[ .Arguments.PARAMETERS_JSON ]] | jq -r '.[] | "\(.ParameterKey)=\(.ParameterValue)"' )'
+        - 'echo $SAM_PARAMETERS'
+        [[ end ]]
         [[- $cmd := (printf "sam deploy --no-confirm-changeset --capabilities=CAPABILITY_IAM --no-fail-on-empty-changeset") -]]
         [[- $cmd = (printf "%s --stack-name=%s" $cmd .Arguments.STACK) -]]
         [[- $cmd = (printf "%s --region=%s" $cmd .Arguments.REGION) -]]
@@ -131,6 +137,6 @@ spec:
         [[ range $arg := .Arguments.TAGS ]]
         [[- $cmd = (printf "%s %s" $cmd $arg) -]]
         [[- end ]]
-          - 'cd [[ .Arguments.TEMPLATE ]]'
-          - '[[ $cmd ]]'
+        - 'cd [[ .Arguments.TEMPLATE ]]'
+        - '[[ $cmd ]]'
 
