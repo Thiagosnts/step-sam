@@ -3,7 +3,7 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 0.0.1
+  version: 0.0.7
   isPublic: false
   description: SAM AWS
   sources:
@@ -32,22 +32,20 @@ metadata:
           arguments:
             AWS_ACCESS_KEY_ID: IDEXAMPLE
             AWS_SECRET_ACCESS_KEY: KEYEXAMPLE
+            AWS_SESSION_TOKEN: TOKENEXAMPLE
             STACK: stack-exampĺe
             TEMPLATE: /project
             PARAMETERS:
               - env1=value1
               - env2=value2
               - env3=value3
+            PARAMETERS_JSON: parameters.json
             TAGS:
               - project=example
               - environment=hml
             REGION: us-east2
             S3_PREFIX: sam
             S3_BUCKET: sam-example
-  created_at: "2021-07-04T08:19:25.387Z"
-  updated_at: "2021-07-04T08:19:25.387Z"
-  latest: true
-  id: 60e16f0eeb7a775dc56bbce0
 spec:
   arguments: |-
     {
@@ -65,6 +63,10 @@ spec:
           "AWS_SECRET_ACCESS_KEY": {
               "type": "string",
               "description": "AWS_SECRET_ACCESS_KEY"
+          },
+          "AWS_SESSION_TOKEN": {
+              "type": "string",
+              "description": "AWS_SESSION_TOKEN"
           },
           "TEMPLATE": {
               "type": "string",
@@ -93,6 +95,10 @@ spec:
               },
               "description": "List of the PARAMETERS to get"
           },
+          "PARAMETERS_JSON": {
+              "type": "string",
+              "description": "Path json of the PARAMETERS to get ex: content file json[{'ParameterKey':'ApplicationName','ParameterValue':'Foo'},{'ParameterKey':'ApplicationKey','ParameterValue':'Bar'}]"
+          },
           "TAGS": {
               "type": "array",
               "items": {
@@ -109,8 +115,9 @@ spec:
     main:
         image: public.ecr.aws/sam/build-nodejs14.x
         commands:
-          - 'export AWS_ACCESS_KEY_ID=[[ .Arguments.AWS_ACCESS_KEY_ID ]]'
-          - 'export AWS_SECRET_ACCESS_KEY=[[ .Arguments.AWS_SECRET_ACCESS_KEY ]]'
+        - 'export AWS_ACCESS_KEY_ID=[[ .Arguments.AWS_ACCESS_KEY_ID ]]'
+        - 'export AWS_SECRET_ACCESS_KEY=[[ .Arguments.AWS_SECRET_ACCESS_KEY ]]'
+        - 'export AWS_SESSION_TOKEN=[[ .Arguments.AWS_SESSION_TOKEN ]]'
         [[- $cmd := (printf "sam deploy --no-confirm-changeset --capabilities=CAPABILITY_IAM --no-fail-on-empty-changeset") -]]
         [[- $cmd = (printf "%s --stack-name=%s" $cmd .Arguments.STACK) -]]
         [[- $cmd = (printf "%s --region=%s" $cmd .Arguments.REGION) -]]
