@@ -113,7 +113,7 @@ spec:
     right: "]]"
   stepsTemplate: |-
     main:
-        image: public.ecr.aws/sam/build-nodejs16.x
+        image: public.ecr.aws/sam/build-python3.9
         commands:
         [[- $cmd := (printf "sam deploy --no-confirm-changeset --capabilities=CAPABILITY_IAM --no-fail-on-empty-changeset") -]]
         [[- $cmd = (printf "%s --stack-name=%s" $cmd .Arguments.STACK) -]]
