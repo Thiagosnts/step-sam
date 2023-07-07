@@ -3,7 +3,7 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 1.0.39
+  version: 1.0.40
   isPublic: true
   description: SAM AWS
   sources:
@@ -133,8 +133,9 @@ spec:
           - parameters_extra=$( cat [[ .Arguments.PARAMETERS_JSON ]] | jq -r 'to_entries[] | "\(.key)=\(.value)"' )
         [[ end ]]
           - 'cd [[ .Arguments.TEMPLATE ]]'
-          - '[[ $cmd ]] [[ $parameters ]] ${parameters_extra}' 
+          - '[[ $cmd ]] ${parameters} ${parameters_extra}' 
         environment:
         [[ range $key, $val := .Arguments ]]
           - '[[ $key ]]=[[ $val ]]'
         [[- end ]]
+          - 'parameters=[[ $parameters ]]'
