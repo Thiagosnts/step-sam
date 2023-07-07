@@ -3,7 +3,7 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 1.0.40
+  version: 1.0.41
   isPublic: true
   description: SAM AWS
   sources:
@@ -97,7 +97,7 @@ spec:
           },
           "PARAMETERS_JSON": {
               "type": "string",
-              "description": "Path json of the PARAMETERS to get ex: content file json[{'ParameterKey':'ApplicationName','ParameterValue':'Foo'},{'ParameterKey':'ApplicationKey','ParameterValue':'Bar'}]"
+              "description": "Path json of the PARAMETERS to get ex: content file json {'ApplicationName':'Foo', 'ApplicationUrl':'http://localhost'}"
           },
           "TAGS": {
               "type": "array",
