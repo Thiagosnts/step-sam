@@ -3,7 +3,7 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 0.12.0
+  version: 0.13.0
   isPublic: true
   description: SAM AWS
   sources:
@@ -121,7 +121,7 @@ spec:
         - 'export AWS_SESSION_TOKEN=[[ .Arguments.AWS_SESSION_TOKEN ]]'
         [[ end ]]
         [[ if .Arguments.PARAMETERS_JSON ]]
-        - 'SAM_PARAMETERS=$( cat [[ .Arguments.PARAMETERS_JSON ]] | jq -r '.[] | "\(.ParameterKey)=\(.ParameterValue)"' )'
+        - SAM_PARAMETERS=$( cat [[ .Arguments.PARAMETERS_JSON ]] | jq -r '.[] | "\(.ParameterKey)=\(.ParameterValue)"' )
         - 'echo $SAM_PARAMETERS'
         [[ end ]]
         [[- $cmd := (printf "sam deploy --no-confirm-changeset --capabilities=CAPABILITY_IAM --no-fail-on-empty-changeset") -]]
