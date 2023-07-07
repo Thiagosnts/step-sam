@@ -3,7 +3,7 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 1.0.38
+  version: 1.0.39
   isPublic: true
   description: SAM AWS
   sources:
