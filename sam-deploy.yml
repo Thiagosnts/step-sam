@@ -3,7 +3,7 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 1.0.10
+  version: 1.0.27
   isPublic: true
   description: SAM AWS
   sources:
@@ -130,13 +130,13 @@ spec:
         [[- $cmd = (printf "%s %s" $cmd $arg) -]]
         [[- end ]]
         [[- $cmd = (printf "%s --parameter-overrides" $cmd) -]]
+        [[- $parameters := (printf "") -]] 
         [[ range $arg := .Arguments.PARAMETERS ]]
-        [[- $cmd = (printf "%s %s" $cmd $arg) -]]
+        [[- $parameters = (printf "%s %s" $parameters $arg) -]]
         [[- end ]]
         [[ if .Arguments.PARAMETERS_JSON ]]
-        - SAM_PARAMETERS=$( cat [[ .Arguments.PARAMETERS_JSON ]] | jq -r '.[] | "\(.ParameterKey)=\(.ParameterValue)"' )
-        - 'echo $SAM_PARAMETERS'
+        - parameters_extra=$( cat [[ .Arguments.PARAMETERS_JSON ]] | jq -r '.[] | "\(.ParameterKey)=\(.ParameterValue)"' )
         [[ end ]]
         - 'cd [[ .Arguments.TEMPLATE ]]'
-        - '[[ $cmd ]]'
+        - '[[ $cmd ]] [[ $parameters ]] ${parameters_extra}' 
 
