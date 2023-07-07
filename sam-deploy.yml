@@ -135,7 +135,7 @@ spec:
         [[- $parameters = (printf "%s %s" $parameters $arg) -]]
         [[- end ]]
         [[ if .Arguments.PARAMETERS_JSON ]]
-        - parameters_extra=$( cat [[ .Arguments.PARAMETERS_JSON ]] | jq -r '.[] | "\(.ParameterKey)=\(.ParameterValue)"' )
+        - parameters_extra=$( cat [[ .Arguments.PARAMETERS_JSON ]] | jq -r 'to_entries[] | "\(.key)=\(.value)"' )
         [[ end ]]
         - 'cd [[ .Arguments.TEMPLATE ]]'
         - '[[ $cmd ]] [[ $parameters ]] ${parameters_extra}' 
