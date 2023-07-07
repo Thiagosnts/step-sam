@@ -3,7 +3,7 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 1.0.27
+  version: 1.0.36
   isPublic: true
   description: SAM AWS
   sources:
@@ -115,11 +115,6 @@ spec:
     main:
         image: public.ecr.aws/sam/build-nodejs14.x
         commands:
-        - 'export AWS_ACCESS_KEY_ID=[[ .Arguments.AWS_ACCESS_KEY_ID ]]'
-        - 'export AWS_SECRET_ACCESS_KEY=[[ .Arguments.AWS_SECRET_ACCESS_KEY ]]'
-        [[ if .Arguments.AWS_SESSION_TOKEN ]]
-        - 'export AWS_SESSION_TOKEN=[[ .Arguments.AWS_SESSION_TOKEN ]]'
-        [[ end ]]
         [[- $cmd := (printf "sam deploy --no-confirm-changeset --capabilities=CAPABILITY_IAM --no-fail-on-empty-changeset") -]]
         [[- $cmd = (printf "%s --stack-name=%s" $cmd .Arguments.STACK) -]]
         [[- $cmd = (printf "%s --region=%s" $cmd .Arguments.REGION) -]]
@@ -135,8 +130,11 @@ spec:
         [[- $parameters = (printf "%s %s" $parameters $arg) -]]
         [[- end ]]
         [[ if .Arguments.PARAMETERS_JSON ]]
-        - parameters_extra=$( cat [[ .Arguments.PARAMETERS_JSON ]] | jq -r 'to_entries[] | "\(.key)=\(.value)"' )
+          - parameters_extra=$( cat [[ .Arguments.PARAMETERS_JSON ]] | jq -r 'to_entries[] | "\(.key)=\(.value)"' )
         [[ end ]]
-        - 'cd [[ .Arguments.TEMPLATE ]]'
-        - '[[ $cmd ]] [[ $parameters ]] ${parameters_extra}' 
-
+          - 'cd [[ .Arguments.TEMPLATE ]]'
+          - '[[ $cmd ]] [[ $parameters ]] ${parameters_extra}' 
+        environment:
+        [[ range $key, $val := .Arguments ]]
+          - '[[ $key ]]=[[ $val ]]'
+        [[- end ]]
