@@ -3,7 +3,7 @@ kind: step-type
 metadata:
   name: atqipiranga/sam-deploy
   title: SAM AWS
-  version: 1.0.41
+  version: 1.0.43
   isPublic: true
   description: SAM AWS
   sources:
@@ -105,6 +105,11 @@ spec:
                   "type": "string"
               },
               "description": "List of the TAGS to get"
+          },            
+          "working_directory": {
+              "type": "string",
+              "description": "The directory from which the commands are executed. It can be an explicit path in the container’s file system, or a variable that references another step. The default working_directory is the cloned repository directory and not the working directory specified by the image. If you need to use the default working directory of the image use IMAGE_WORK_DIR.",
+              "examples": ["/codefresh/volume"]
           }
         }
     }
@@ -132,7 +137,6 @@ spec:
         [[ if .Arguments.PARAMETERS_JSON ]]
           - parameters_extra=$( cat [[ .Arguments.PARAMETERS_JSON ]] | jq -r 'to_entries[] | "\(.key)=\(.value)"' )
         [[ end ]]
-          - 'cd [[ .Arguments.TEMPLATE ]]'
           - '[[ $cmd ]] ${parameters} ${parameters_extra}' 
         environment:
         [[ range $key, $val := .Arguments ]]
